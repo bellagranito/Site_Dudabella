@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemplo de Interface com Modal e Imagens</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        header nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        header nav ul li {
+            display: inline-block;
+            position: relative;
+        }
+
+        header nav ul li .dropdown {
+            display: none;
+            position: absolute;
+            background-color: #333;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            width: 200px;
+            /* Largura do submenu */
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            /* Centraliza o conteúdo do submenu */
+        }
+
+        header nav ul li:hover .dropdown {
+            display: block;
+        }
+
+        .dropdown a {
+            color: #fff;
+            text-decoration: none;
+            padding: 12px 16px;
+            display: block;
+        }
+
+        .dropdown a:hover {
+            background-color: #555;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .item {
+            border: 1px dashed #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px;
+            width: calc(30% - 20px);
+            /* 3 colunas para desktop */
+            text-align: center;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            /* Para posicionar o botão dentro do item */
+        }
+
+        .opcaotamanho {
+            font-size: 1vw;
+            border-radius: 30px;
+        }
+
+        .inputquantidade {
+            font-size: 1vw;
+            border-radius: 30px;
+            width: 15%;
+            text-align: center;
+        }
+
+        input[type=number]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+            appearance: textfield;
+
+        }
+
+        @media (max-width: 768px) {
+            .item {
+                width: calc(40%);
+                /* 2 colunas para tablets */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .item {
+                width: calc(100% - 20px);
+                /* 1 coluna para dispositivos móveis */
+            }
+
+            .opcaotamanho {
+                font-size: 14px;
+                /* Ajuste o tamanho da fonte conforme necessário */
+                border-radius: 30px;
+                width: 50%;
+            }
+
+            .inputquantidade {
+                font-size: 14px;
+                /* Ajuste o tamanho da fonte conforme necessário */
+                border-radius: 30px;
+                width: 15%;
+                text-align: center;
+            }
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px dashed #888;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        #modalImage {
+            width: 100%;
+            height: 80%;
+        }
+
+        .modeloimagem {
+            width: 100%;
+            height: 70%;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .open-modal {
+            font-size: 3vh;
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .open-modal:hover {
+            background-color: skyblue;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .footer-link:visited,
+        .footer-link:hover,
+        .footer-link:focus {
+            color: #fff;
+            /* Mantém a cor padrão (branco) para os links após o clique */
+            text-decoration: none;
+            /* Remove sublinhado dos links após o clique */
+        }
+
+        .footer-link {
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li>
+                    <span class="dropdown-toggle">Produtos</span>
+                    <ul class="dropdown">
+                        <li><a href="#sapatilhasBebe">Sapatilha - Bebê</a></li>
+                        <li><a href="#sandaliasBebe">Sandálias Pantufas - Bebê</a></li>
+                        <li><a href="#sapatilhaDeCetim">Sapatilha de cetim</a></li>
+                        <li><a href="#allstarBebe">Tênis allstar - Bebê</a></li>
+                        <li><a href="#allstar">Allstar tecido</a></li>
+                        <li><a href="#gliter">Gliter - Bebê</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!--SAPATILHAS-->
+
+    <label class="container" id="sapatilhasBebe">Sapatilha - bebê</label>
+    <div class="container">
+        <div class="item" data-model="modelo1">
+            <img class="modeloimagem"
+                src="https://lh3.google.com/u/0/d/1Dy3uoVmWtN6QIP70PJU8Dghi5sr_lhGR=w2000-h3556-iv1" alt="Modelo 1">
+            <h3>Sapatilhas Branca</h3>
+            <button class="open-modal" data-quantity="1" data-size="0" data-name="Modelo 1"
+                data-src="https://lh3.google.com/u/0/d/1Dy3uoVmWtN6QIP70PJU8Dghi5sr_lhGR=w2000-h3556-iv1">Visualizar</button>
+        </div>
+    </div>
+
+    <!--SANDALHAS PANTUFAS BEBE-->
+
+    <label class="container" id="sandaliasBebe">Sandálias Pantufas - bebê</label>
+    <div class="container">
+        <div class="item" data-model="modelo1">
+            <img class="modeloimagem"
+                src="https://lh3.google.com/u/0/d/1uzkw1-SFDP5R2lzci6iwC92cTC7vOY8T=w2000-h3556-iv2" alt="Modelo 1">
+            <h3>Sandalha Pantufa</h3>
+            <button class="open-modal" data-quantity="1" data-size="0" data-name="Modelo 1"
+                data-src="https://lh3.google.com/u/0/d/1uzkw1-SFDP5R2lzci6iwC92cTC7vOY8T=w2000-h3556-iv2">Visualizar</button>
+        </div>
+    </div>
+
+    <!--SAPATILHAS DE SETIM-->
+
+    <label class="container" id="sapatilhaDeCetim">Sapatilha de cetim</label>
+    <div class="container">
+        <div class="item" data-model="modelo2">
+            <img class="modeloimagem"
+                src="https://lh3.google.com/u/0/d/1qI-MCd9tpCCt8ZwvRRUozQcfrXnriZDa=w2000-h3556-iv2" alt="Modelo 1">
+            <h3>Sapatilha Cetim Rosa</h3>
+            <button class="open-modal" data-quantity="1" data-size="0" data-name="Modelo 1"
+                data-src="https://lh3.google.com/u/0/d/1qI-MCd9tpCCt8ZwvRRUozQcfrXnriZDa=w2000-h3556-iv2">Visualizar</button>
+        </div>
+    </div>
+
+    <!--ALL START NOMAL-->
+
+    <label class="container" id="allstarBebe">Tênis allstar - bebê</label>
+    <div class="container">
+        <!-- Painéis de Itens -->
+        <div class="item" data-model="modelo1">
+            <img class="modeloimagem"
+                src="https://lh3.googleusercontent.com/u/0/drive-viewer/AKGpihZplJ5fSP-XYiBKUyZ1Lvq_tEGr1wsoQTHRERQvjEtzSzYtIPPUsLxHGtWU6QNXH-YHRX75vUYSY2KE-oN5_IYAQt6v_A49hw=w1960-h3486-rw-v1"
+                alt="Modelo 1">
+            <h3>AllStar Kid Preto</h3>
+            <button class="open-modal" data-quantity="1" data-size="0" data-name="Modelo 1"
+                data-src="https://lh3.googleusercontent.com/u/0/drive-viewer/AKGpihZplJ5fSP-XYiBKUyZ1Lvq_tEGr1wsoQTHRERQvjEtzSzYtIPPUsLxHGtWU6QNXH-YHRX75vUYSY2KE-oN5_IYAQt6v_A49hw=w1960-h3486-rw-v1">Visualizar</button>
+        </div>
+    </div>
+
+    <!--ALL START NOMAL-->
+
+    <label class="container" id="allstar">Tênis allstar tecido</label>
+    <div class="container">
+        <div class="item" data-model="modelo2">
+            <img class="modeloimagem"
+                src="https://lh3.google.com/u/0/d/1G1HZlzAXdp4PuO4hUo008NUrWTbOyYJ6=w2000-h3556-iv1" alt="Modelo 1">
+            <h3>AllStart Rosa</h3>
+            <button class="open-modal" data-quantity="1" data-size="0" data-name="Modelo 1"
+                data-src="https://lh3.google.com/u/0/d/1G1HZlzAXdp4PuO4hUo008NUrWTbOyYJ6=w2000-h3556-iv1">Visualizar</button>
+        </div>
+    </div>
+    <label class="container" id="gliter">Gliter - bebê</label>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">×</span>
+            <h2>Nome do sapato</h2>
+            <img id="modalImage" src="" alt="Imagem do Item">
+            <form id="itemForm">
+                <label for="quantity" class="opcaotamanho">Quantidade:</label><br>
+                <input type="number" id="quantity" name="quantity" min="1" class="inputquantidade" value="1"><br><br>
+                <label for="size" class="opcaotamanho">Tamanho:</label>
+                <!-- Select para Modelo 1 -->
+                <select id="sizeModel1" name="size" style="display: none;" class="opcaotamanho">
+                    <option value="" selected="">-Selecione um tamanho-</option>
+                    <option value="17">13</option>
+                    <option value="19">15</option>
+                    <option value="21">17</option>
+                </select>
+                <!-- Select para Modelo 2 -->
+                <select id="sizeModel2" name="size" style="display: none;" class="opcaotamanho">
+                    <option value="" selected="">-Selecione um tamanho-</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                    <option value="24">24</option>
+                    <option value="25">25</option>
+                    <option value="26">26</option>
+                    <option value="27">27</option>
+                </select><br><br>
+                <input type="submit" value="Encomendar" class="open-modal">
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function increaseNumber() {
+            var input = document.getElementById('myNumber');
+            var value = parseInt(input.value, 10);
+            input.value = value + 1;
+        }
+
+        function decreaseNumber() {
+            var input = document.getElementById('myNumber');
+            var value = parseInt(input.value, 10);
+            if (value > 0) {
+                input.value = value - 1;
+            }
+        }
+
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Seleciona todos os botões de abrir o modal
+            var modalBtns = document.querySelectorAll('.open-modal');
+
+            // Adiciona um event listener para cada botão
+            modalBtns.forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var modal = document.getElementById('myModal');
+                    var span = document.getElementsByClassName('close')[0];
+                    var quantityInput = document.getElementById('quantity');
+                    var sizeSelectModel1 = document.getElementById('sizeModel1');
+                    var sizeSelectModel2 = document.getElementById('sizeModel2');
+                    var modalImage = document.getElementById('modalImage');
+                    var model = btn.parentNode.getAttribute('data-model');
+                    var modelName = btn.getAttribute('data-name');
+                    var imageUrl = btn.getAttribute('data-src');
+                    var shoeName = btn.parentNode.querySelector('h3').innerText;
+
+                    // Define os valores iniciais dos inputs baseado nos atributos data do botão
+                    quantityInput.value = btn.getAttribute('data-quantity');
+                    sizeSelectModel1.selectedIndex = 0; // Seleciona a primeira opção para Modelo 1
+                    sizeSelectModel2.selectedIndex = 0; // Seleciona a primeira opção para Modelo 2
+                    modalImage.src = imageUrl;
+                    modalImage.alt = btn.parentNode.querySelector('img').alt; // Obtém o texto alternativo da imagem
+
+                    // Define o nome do sapato como o título do modal
+                    document.querySelector('.modal-content h2').innerText = shoeName;
+
+                    // Exibe o modal
+                    modal.style.display = 'block';
+
+                    // Fecha o modal ao clicar no botão de fechar
+                    span.onclick = function () {
+                        modal.style.display = 'none';
+                    }
+
+                    // Fecha o modal ao clicar fora dele
+                    window.onclick = function (event) {
+                        if (event.target == modal) {
+                            modal.style.display = 'none';
+                        }
+                    }
+
+                    // Mostra o select correto baseado no modelo selecionado
+                    if (model === 'modelo1') {
+                        sizeSelectModel1.style.display = 'inline-block';
+                        sizeSelectModel2.style.display = 'none';
+                    } else if (model === 'modelo2') {
+                        sizeSelectModel1.style.display = 'none';
+                        sizeSelectModel2.style.display = 'inline-block';
+                    }
+                });
+            });
+
+            // Manipula o envio do formulário dentro do modal
+            document.getElementById('itemForm').addEventListener('submit', function (event) {
+                var sizeSelectModel1 = document.getElementById('sizeModel1');
+                var sizeSelectModel2 = document.getElementById('sizeModel2');
+
+                // Verifica se um tamanho foi selecionado
+                if (sizeSelectModel1.style.display === 'inline-block' && sizeSelectModel1.value === '') {
+                    alert('Por favor, selecione um tamanho antes de enviar o formulário.');
+                    event.preventDefault(); // Impede o envio do formulário
+                    return;
+                } else if (sizeSelectModel2.style.display === 'inline-block' && sizeSelectModel2.value === '') {
+                    alert('Por favor, selecione um tamanho antes de enviar o formulário.');
+                    event.preventDefault(); // Impede o envio do formulário
+                    return;
+                }
+
+                // Aqui você pode continuar com o processamento do formulário se o tamanho estiver selecionado
+                event.preventDefault(); // Previne o envio padrão do formulário
+
+                var quantity = document.getElementById('quantity').value;
+                var size;
+                var modelName;
+                var imageUrl;
+
+                // Verifica qual select está visível e obtém o valor selecionado
+                if (sizeSelectModel1.style.display === 'inline-block') {
+                    size = sizeSelectModel1.value;
+                } else if (sizeSelectModel2.style.display === 'inline-block') {
+                    size = sizeSelectModel2.value;
+                }
+
+                // Obtém o nome do modelo e a URL da imagem
+                modelName = document.querySelector('.modal-content h2').innerText;
+                imageUrl = document.getElementById('modalImage').src;
+
+                // Monta a mensagem para enviar pelo WhatsApp (exemplo)
+                var phoneNumber = '5518991302594'; // Substitua pelo número de telefone desejado
+                var message = `Olá! Gostaria de encomendar o modelo ${modelName}, tamanho ${size}, quantidade ${quantity}. Veja a imagem: ${imageUrl}`;
+
+                // Codifica a mensagem para enviar via link do WhatsApp
+                var whatsappUrl = `https://api.whatsapp.com/send?phone=${encodeURIComponent(phoneNumber)}&text=${encodeURIComponent(message)}`;
+
+                // Redireciona para o WhatsApp com a mensagem pronta
+                window.location.href = whatsappUrl;
+            });
+        });
+    </script>
+
+    <footer style="background-color: #333; color: #fff; text-align: center; padding: 10px 0;">
+        <p>Dev By: RicharDcvg</p>
+        <p>© copyright 2024 ©</p>
+        <p>Gostou do catálogo? Entre em contato comigo por qualquer uma dessas redes sociais:</p>
+        <p>
+            <a href="https://www.facebook.com/richard.violin/" target="_blank" class="footer-link">Facebook</a> |
+            <a href="https://www.linkedin.com/in/richard-violin-bb2223135/" target="_blank"
+                class="footer-link">LinkedIn</a> |
+            <a href="https://discord.gg/3KQWJk7H" target="_blank" class="footer-link">Discord</a> |
+            <a href="https://api.whatsapp.com/send/?phone=5518998000219&amp;text=Gostaria+de+mais+detalhes%0A&amp;type=phone_number&amp;app_absent=0"
+                target="_blank" class="footer-link">WhatsApp</a>
+        </p>
+    </footer>
+
+
+
+
+
+</body>
+
+</html>
